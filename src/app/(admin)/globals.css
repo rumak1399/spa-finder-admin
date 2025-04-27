@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+:root {
+	--theme-primary: #ffffff;
+	--theme-secondary: #ff1f7e;
+	--theme-heading: #000000;
+	--theme-paragraph: #222222;
+	--theme-action: #fb953b;
+	--theme-borderColor: #cccccc;
+}
