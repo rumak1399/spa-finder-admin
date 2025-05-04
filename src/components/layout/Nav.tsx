@@ -50,7 +50,7 @@ const Nav = ({
 							></path>
 						</svg>
 						<Image
-							className=''
+							// className=''
 							width={260}
 							height={90}
 							src={logoi}

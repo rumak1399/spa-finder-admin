@@ -9,7 +9,7 @@ interface AvatarUploaderProps {
 export function ImageUploader({ onUploadSuccess }: AvatarUploaderProps) {
 	return (
 		<CldUploadWidget
-			uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
+			uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_IMAGE_UPLOAD_PRESET}
 			signatureEndpoint='/api/signcloudinary-params'
 			onSuccess={(result) => {
 				if (typeof result.info === "object" && "secure_url" in result.info) {

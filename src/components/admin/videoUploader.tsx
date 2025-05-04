@@ -9,7 +9,7 @@ interface VideoUploaderProps {
 export function VideoUploader({ onUploadSuccess }: VideoUploaderProps) {
   return (
     <CldUploadWidget
-      uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
+      uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_VIDEO_UPLOAD_PRESET}
       signatureEndpoint='/api/signcloudinary-params'
       onSuccess={(result) => {
         if (typeof result.info === "object" && "secure_url" in result.info) {

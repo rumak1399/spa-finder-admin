@@ -6,7 +6,7 @@ import { ImageUploader } from "./imageUploader";
 import { ICategory } from "./allCategories";
 // import { PdfUploader } from "./pdfUploader";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {  faImage ,  faVideo } from "@fortawesome/free-solid-svg-icons";
+import { faImage, faVideo } from "@fortawesome/free-solid-svg-icons";
 import { v4 as uuidv4 } from "uuid";
 import { VideoUploader } from "./videoUploader";
 
@@ -24,15 +24,14 @@ export default function AddProduct({
   const [newlyarrived, setnewlyArrived] = useState<boolean>(false);
   const [description, setDescription] = useState<string>("");
   const [specification, setSpecification] = useState<string>("");
-  const [category, setCategory] = useState<{ id: string; path: string }>({
+  const [category, setCategory] = useState<{ id: string}>({
     id: "",
-    path: "",
   });
   const [categories, setCategories] = useState<ICategory[]>([]); // Hierarchical categories
   const [mainImage, setMainImage] = useState<string | undefined>();
-  const [video, setVideo] = useState<string | undefined>(); 
-//   const [pdf, setPdf] = useState<string | undefined>();
-//   const [pdfNmae, setPdfname] = useState<string | undefined>();
+  const [video, setVideo] = useState<string | undefined>();
+  //   const [pdf, setPdf] = useState<string | undefined>();
+  //   const [pdfNmae, setPdfname] = useState<string | undefined>();
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [slugPreview, setSlugPreview] = useState<string>("");
@@ -42,11 +41,11 @@ export default function AddProduct({
     try {
       setLoading(true);
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_HOST_URI}/categories`
+        `${process.env.NEXT_PUBLIC_BACKEND_HOST_URI}/categories/all`
       );
       const data = await response.json();
       if (response.ok) {
-        setCategories(data.categories);
+        setCategories(data?.data);
       } else {
         setError(data.message || "Failed to fetch categories.");
       }
@@ -63,32 +62,36 @@ export default function AddProduct({
   }, []);
 
   // Generate slug preview
-  useEffect(() => {
-    if (category.path && name) {
-      const formattedName = name
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-") // Replace non-alphanumeric characters with hyphens
-        .replace(/^-+|-+$/g, ""); // Trim leading/trailing hyphens
-      setSlugPreview(`${category.path}/${formattedName}/${uid}`);
-    }
-  }, [category, name, uid]);
+  // useEffect(() => {
+  //   if (category.path && name) {
+  //     const formattedName = name
+  //       .toLowerCase()
+  //       .replace(/[^a-z0-9]+/g, "-") // Replace non-alphanumeric characters with hyphens
+  //       .replace(/^-+|-+$/g, ""); // Trim leading/trailing hyphens
+  //     setSlugPreview(`${category.path}/${formattedName}/${uid}`);
+  //   }
+  // }, [category, name, uid]);
 
   // Render categories with hierarchy
-  const renderCategoryOptions = (categories: ICategory[], parentPath = "") => {
-    return categories.map((cat) => {
-      const currentPath = parentPath ? `${parentPath}/${cat.slug}` : cat.slug;
+  const renderCategoryOptions = (categories: ICategory[]) => {
+    return categories.map((cat, idx) => {
+      // const currentPath = parentPath ? `${parentPath}/${cat.slug}` : cat.slug;
 
       return (
-        <React.Fragment key={cat._id}>
-          <option value={cat._id} data-path={currentPath}>
-            {"—".repeat(currentPath.split("/").length - 1)} {cat.name}
+        <React.Fragment key={idx}>
+          <option value={cat?._id} >
+            {cat?.name}
+            {/* {"—".repeat(currentPath.split("/").length - 1)} {cat.name} */}
           </option>
           {/* Render child categories recursively */}
-          {cat.children && renderCategoryOptions(cat.children, currentPath)}
+          {/* {cat.children && renderCategoryOptions(cat.children, currentPath)} */}
         </React.Fragment>
       );
     });
   };
+
+console.log('categories', categories, 'selected category', category);
+
 
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
@@ -107,18 +110,18 @@ export default function AddProduct({
       discount: discount,
       discountAmount: discountAmount,
       category: category.id,
-      status: status ? "published" : "draft",
       image: { url: mainImage || "", alt: name },
-	  video: {url: video || "", alt: "Product Video"},
-	  //   brochure: { url: pdf || "", filename: pdfNmae },
+      video: { url: video || "", alt: "Product Video" },
+      //   brochure: { url: pdf || "", filename: pdfNmae },
+      status: status ? "published" : "draft",
       featured: featured,
       newlyArrived: newlyarrived,
-      slug: slugPreview, // Include slug in the request
+      // slug: slugPreview, // Include slug in the request
     };
 
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_HOST_URI}/products`,
+        `${process.env.NEXT_PUBLIC_BACKEND_HOST_URI}/post`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -128,6 +131,7 @@ export default function AddProduct({
       const data = await res.json();
 
       if (res.ok) {
+        alert(`Post added!`);
         setDisplay("products");
       } else {
         alert(`Failed to add product: ${data.message}`);
@@ -141,7 +145,7 @@ export default function AddProduct({
   return (
     <>
       {loading && <p>Loading categories...</p>}
-      {error && <p className="text-red-500">{error}</p>}
+      {/* {error && <p className="text-red-500">{error}</p>} */}
       {categories && (
         <form
           className="w-full max-w-[84%] text-secondary text-lg flex justify-center"
@@ -151,10 +155,10 @@ export default function AddProduct({
             {/* Main Image Upload */}
             <div className="w-full flex gap-4 mb-4">
               <div className="flex flex-col gap-2">
-                <label htmlFor="file">Main Image</label>
+                <label htmlFor="file">Post Image</label>
                 {mainImage ? (
                   <img
-                    className="min-w-[260px] h-[360px] rounded-md border border-borderColor my-1"
+                    className="max-w-[260px] h-[360px] rounded-md border border-borderColor my-1"
                     src={mainImage}
                     alt="Main"
                   />
@@ -183,11 +187,11 @@ export default function AddProduct({
                   onUploadSuccess={(link) => setPdf(link)}
                 />
               </div> */}
-			  <div className="flex flex-col gap-2">
-                <label>Product Video</label>
+              <div className="flex flex-col gap-2">
+                <label>Post Video</label>
                 {video ? (
                   <video
-                    className="min-w-[260px] h-[360px] rounded-md border border-borderColor my-1"
+                    className="max-w-[260px] h-[360px] rounded-md border border-borderColor my-1"
                     src={video}
                     controls
                   />
@@ -196,13 +200,14 @@ export default function AddProduct({
                     <FontAwesomeIcon icon={faVideo} className="w-20 h-20" />
                   </div>
                 )}
-                <VideoUploader onUploadSuccess={(link) => setVideo(link)} /> {/* Reusing ImageUploader */}
+                <VideoUploader onUploadSuccess={(link) => setVideo(link)} />{" "}
+                {/* Reusing ImageUploader */}
               </div>
             </div>
 
             {/* Product Details */}
             <div className="mb-4">
-              <label htmlFor="title">Product Name</label>
+              <label htmlFor="title">Post Name</label>
               <input
                 className="w-full h-10 rounded-md border border-bcollor pl-3"
                 id="title"
@@ -259,10 +264,10 @@ export default function AddProduct({
                 id="category"
                 value={category.id}
                 onChange={(e) => {
-                  const selectedOption =
-                    e.target.options[e.target.selectedIndex];
-                  const path = selectedOption.getAttribute("data-path");
-                  setCategory({ id: e.target.value, path: path || "" });
+                  // const selectedOption =
+                  //   e.target.options[e.target.selectedIndex];
+                  // // const path = selectedOption.getAttribute("data-path");
+                  setCategory({ id: e.target.value });
                 }}
                 required
               >
@@ -274,12 +279,12 @@ export default function AddProduct({
             </div>
 
             {/* Slug Preview */}
-            <div className="mb-4">
+            {/* <div className="mb-4">
               <label>Generated Slug (URL)</label>
               <p className="text-gray-500">
                 {slugPreview ? `/${slugPreview}` : "Slug will appear here"}
               </p>
-            </div>
+            </div> */}
             <div className="mb-4">
               <label htmlFor="description">Specification</label>
               <textarea
@@ -306,7 +311,7 @@ export default function AddProduct({
 
             {/* Status and Discount */}
 
-            <div className="mb-4 flex items-center">
+            {/* <div className="mb-4 flex items-center">
               <input
                 id="featured"
                 type="checkbox"
@@ -316,7 +321,7 @@ export default function AddProduct({
               <label htmlFor="featured" className="ml-2">
                 Featured
               </label>
-            </div>
+            </div> */}
             <div className="mb-4 flex items-center">
               <input
                 id="newlyarrived"
@@ -325,10 +330,10 @@ export default function AddProduct({
                 onChange={(e) => setnewlyArrived(e.target.checked)}
               />
               <label htmlFor="newlyarrived" className="ml-2">
-                Newly Arrived
+                Popular Field
               </label>
             </div>
-            <div className="mb-4 flex items-center">
+            {/* <div className="mb-4 flex items-center">
               <input
                 id="status"
                 type="checkbox"
@@ -338,7 +343,7 @@ export default function AddProduct({
               <label htmlFor="status" className="ml-2">
                 Publish
               </label>
-            </div>
+            </div> */}
 
             {/* Submit Button */}
             <div className="flex justify-end">

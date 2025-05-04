@@ -88,9 +88,11 @@ const MainComponentAdmin = ({ logo }: { logo: string }) => {
 						allProducts: IProduct[];
 					};
 				} = await response.json();
-
+// if(data.groupedProducts.allProducts.length )
 				setProducts(data.groupedProducts);
+			
 			} catch (err: unknown) {
+				
 				setError(String(err) || "Failed to fetch products.");
 			} finally {
 				setLoading(false);
@@ -148,14 +150,14 @@ const MainComponentAdmin = ({ logo }: { logo: string }) => {
 						)}
 
 						{/* Show error message */}
-						{error && (
+						{/* {error && (
 							<div className='w-full h-[50%] flex justify-center items-center text-red-500'>
 								Error: {error}
 							</div>
-						)}
+						)} */}
 
 						{/* Show products */}
-						{!loading && !error && (
+						{!loading  && (
 							<Allproducts
 								setDisplay={setDisplay}
 								display={display}

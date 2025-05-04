@@ -36,7 +36,7 @@ const authOptions: AuthOptions = {
 
 				try {
 					const response = await axios.post<{ user: BackendUser }>(
-						`${process.env.NEXT_PUBLIC_BACKEND_HOST_URI}/login`,
+						`${process.env.NEXT_PUBLIC_BACKEND_HOST_URI}/auth/login`,
 						{
 							email: credentials.email,
 							password: credentials.password,
