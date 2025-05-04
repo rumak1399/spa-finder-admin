@@ -20,10 +20,10 @@ export interface IRootCategory{
 
 export const AllCategories = () => {
   const [categories, setCategories] = useState<ICategory[]>([]);
-  const [rootCategories, setRootCategories] = useState<ICategory[]>([]);
+  const [rootCategories, setRootCategories] = useState<IRootCategory[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [rootFlag, setRootFlag] = useState<boolean>(false);
+  // const [rootFlag, setRootFlag] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
   const [icon, setIcon] = useState<string>("");
   const [rootSelect, setRootSelect] = useState<string>("");
@@ -67,14 +67,14 @@ export const AllCategories = () => {
 
       if (response.ok) {
         setRootCategories(data);
-        setRootFlag(true);
+        // setRootFlag(true);
       } else {
-        setRootFlag(false);
-        // setError(data.message || "Failed to fetch categories.");
+        // setRootFlag(false);
+        setError(data.message || "Failed to fetch categories.");
       }
     } catch (err) {
       console.error("Error root fetching categories:", err);
-      // setError("An error occurred while fetching categories.");
+      setError("An error occurred while fetching categories.");
     } finally {
       setLoading(false);
     }
@@ -219,7 +219,7 @@ export const AllCategories = () => {
 
       return (
         <React.Fragment key={idx}>
-          <option value={cat?.title}>
+          <option value={cat.title}>
             {cat?.title}
             {/* {"—".repeat(currentPath.split("/").length - 1)} {cat.name} */}
           </option>

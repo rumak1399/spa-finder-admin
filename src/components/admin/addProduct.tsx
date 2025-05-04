@@ -7,7 +7,7 @@ import { ICategory } from "./allCategories";
 // import { PdfUploader } from "./pdfUploader";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage, faVideo } from "@fortawesome/free-solid-svg-icons";
-import { v4 as uuidv4 } from "uuid";
+// import { v4 as uuidv4 } from "uuid";
 import { VideoUploader } from "./videoUploader";
 
 export default function AddProduct({
@@ -19,8 +19,8 @@ export default function AddProduct({
   const [price, setPrice] = useState<number | undefined>(0);
   const [discount, setDiscount] = useState<boolean>(false);
   const [discountAmount, setDiscountAmount] = useState<number | undefined>(0);
-  const [status, setStatus] = useState<boolean>(false);
-  const [featured, setFeatured] = useState<boolean>(false);
+  // const [status, setStatus] = useState<boolean>(false);
+  // const [featured, setFeatured] = useState<boolean>(false);
   const [newlyarrived, setnewlyArrived] = useState<boolean>(false);
   const [description, setDescription] = useState<string>("");
   const [specification, setSpecification] = useState<string>("");
@@ -34,8 +34,8 @@ export default function AddProduct({
   //   const [pdfNmae, setPdfname] = useState<string | undefined>();
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [slugPreview, setSlugPreview] = useState<string>("");
-  const uid = uuidv4();
+  // const [slugPreview, setSlugPreview] = useState<string>("");
+  // const uid = uuidv4();
   // Fetch hierarchical categories
   const fetchCategories = async () => {
     try {
@@ -113,8 +113,8 @@ console.log('categories', categories, 'selected category', category);
       image: { url: mainImage || "", alt: name },
       video: { url: video || "", alt: "Product Video" },
       //   brochure: { url: pdf || "", filename: pdfNmae },
-      status: status ? "published" : "draft",
-      featured: featured,
+      // status: status ? "published" : "draft",
+      // featured: featured,
       newlyArrived: newlyarrived,
       // slug: slugPreview, // Include slug in the request
     };
@@ -145,7 +145,7 @@ console.log('categories', categories, 'selected category', category);
   return (
     <>
       {loading && <p>Loading categories...</p>}
-      {/* {error && <p className="text-red-500">{error}</p>} */}
+      {error && <p className="text-red-500">{error}</p>}
       {categories && (
         <form
           className="w-full max-w-[84%] text-secondary text-lg flex justify-center"
