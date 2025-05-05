@@ -85,16 +85,16 @@ export const AllCategories = () => {
     fetchRootCategories();
   }, []);
 
-  console.log(
-    "fetched categories",
-    categories,
-    "root categories",
-    rootCategories,
-    "root",
-    rootInput,
-    rootSelect,
-    editingCategoryId
-  );
+  // console.log(
+  //   "fetched categories",
+  //   categories,
+  //   "root categories",
+  //   rootCategories,
+  //   "root",
+  //   rootInput,
+  //   rootSelect,
+  //   editingCategoryId
+  // );
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

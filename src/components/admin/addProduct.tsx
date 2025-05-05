@@ -21,7 +21,7 @@ export default function AddProduct({
   const [discountAmount, setDiscountAmount] = useState<number | undefined>(0);
   // const [status, setStatus] = useState<boolean>(false);
   // const [featured, setFeatured] = useState<boolean>(false);
-  const [newlyarrived, setnewlyArrived] = useState<boolean>(false);
+  const [popular, setPopular] = useState<boolean>(false);
   const [description, setDescription] = useState<string>("");
   const [specification, setSpecification] = useState<string>("");
   const [category, setCategory] = useState<{ id: string}>({
@@ -37,6 +37,7 @@ export default function AddProduct({
   // const [slugPreview, setSlugPreview] = useState<string>("");
   // const uid = uuidv4();
   // Fetch hierarchical categories
+
   const fetchCategories = async () => {
     try {
       setLoading(true);
@@ -90,7 +91,7 @@ export default function AddProduct({
     });
   };
 
-console.log('categories', categories, 'selected category', category);
+// console.log('categories', categories, 'selected category', category);
 
 
   // Handle form submission
@@ -115,9 +116,10 @@ console.log('categories', categories, 'selected category', category);
       //   brochure: { url: pdf || "", filename: pdfNmae },
       // status: status ? "published" : "draft",
       // featured: featured,
-      newlyArrived: newlyarrived,
+      popular: popular,
       // slug: slugPreview, // Include slug in the request
     };
+console.log('product data', productData);
 
     try {
       const res = await fetch(
@@ -326,8 +328,8 @@ console.log('categories', categories, 'selected category', category);
               <input
                 id="newlyarrived"
                 type="checkbox"
-                checked={newlyarrived}
-                onChange={(e) => setnewlyArrived(e.target.checked)}
+                checked={popular}
+                onChange={(e) => setPopular(e.target.checked)}
               />
               <label htmlFor="newlyarrived" className="ml-2">
                 Popular Field
