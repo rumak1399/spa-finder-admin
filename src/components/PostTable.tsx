@@ -22,7 +22,7 @@ export default function PostTable({
               Price
             </th>
             <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">
-              Status
+              Discount Amount
             </th>
             <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">
               Category
@@ -40,7 +40,7 @@ export default function PostTable({
                 ${item?.price}
               </td>
               <td className="px-4 py-2 text-sm text-green-600">
-                {item?.status}
+                {item?.discountAmount}
               </td>
               <td className="px-4 py-2 text-sm text-gray-800">
                 {item?.category?.name}
