@@ -51,9 +51,10 @@ const MainComponentAdmin = ({ logo }: { logo: string }) => {
   const [products, setProducts] = useState<IProduct[]>([]); // State to hold products
   const [loading, setLoading] = useState<boolean>(true); // State for loading indicator
   const [error, setError] = useState<string | null>(null); // State for error handling
+  const [noProduct, setNoProduct] = useState<boolean>(true); // State for error handling
 
   const { data: session, status } = useSession(); // Fetch session data
-//   const router = useRouter();
+  //   const router = useRouter();
 
   // // Redirect if not authenticated or not an admin
   // useEffect(() => {
@@ -77,18 +78,22 @@ const MainComponentAdmin = ({ logo }: { logo: string }) => {
         );
 
         // const data: {
-		// 	message: string;
-		// 	groupedProducts: {
-		// 	  published: IProduct[];
-		// 	  unpublished: IProduct[];
-		// 	  allProducts: IProduct[];
-		// 	};
-		//   } = await response.json();
-		  const data = await response.json();
-		//   console.log(data);
-		  
+        // 	message: string;
+        // 	groupedProducts: {
+        // 	  published: IProduct[];
+        // 	  unpublished: IProduct[];
+        // 	  allProducts: IProduct[];
+        // 	};
+        //   } = await response.json();
+        const data = await response.json();
+        //   console.log(data);
+
         // if(data.groupedProducts.allProducts.length )
-        setProducts(data);
+        if (data?.message === "No posts found") {
+          setNoProduct(false);
+        } else {
+          setProducts(data);
+        }
       } catch (err: unknown) {
         setError(String(err) || "Failed to fetch products.");
       } finally {
@@ -107,7 +112,7 @@ const MainComponentAdmin = ({ logo }: { logo: string }) => {
       </div>
     );
   }
-console.log('display', display);
+  console.log("display", display);
 
   return (
     <>
@@ -117,7 +122,7 @@ console.log('display', display);
         <div className="w-full flex justify-between items-center pl-10 pr-14">
           <div className=" h-16 mt-5  text-secondary flex justify-center items-center text-3xl">
             {display !== "addProduct" ? (
-              <></>
+              <p>No Posts Yet!!</p>
             ) : (
               <div
                 onClick={() => setDisplay("products")}
@@ -149,22 +154,26 @@ console.log('display', display);
 
             {/* Show error message */}
             {error && (
-							<div className='w-full h-[50%] flex justify-center items-center text-red-500'>
-								Error: {error}
-							</div>
-						)}
+              <div className="w-full h-[50%] flex justify-center items-center text-red-500">
+                Error: {error}
+              </div>
+            )}
 
             {/* Show products */}
-            {!loading && (
-              <Allproducts
-                setDisplay={setDisplay}
-                display={display}
-                posts={products}
-              />
-            )}
+            {/* {noProduct ? (
+              <div>No Product</div>
+            ) : ( */}
+              {(!loading ) && (
+                <Allproducts
+                  setDisplay={setDisplay}
+                  display={display}
+                  posts={products}
+                />
+              )}
+            {/* )} */}
           </>
         )}
-      {/* {display === "addReivew" && <AddReview  />} */}
+        {/* {display === "addReivew" && <AddReview  />} */}
 
         {tab === "Orders" && <ManageOrders />}
         {tab === "Categories" && <AllCategories />}
