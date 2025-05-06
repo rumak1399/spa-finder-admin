@@ -51,7 +51,7 @@ const MainComponentAdmin = ({ logo }: { logo: string }) => {
   const [products, setProducts] = useState<IProduct[]>([]); // State to hold products
   const [loading, setLoading] = useState<boolean>(true); // State for loading indicator
   const [error, setError] = useState<string | null>(null); // State for error handling
-  const [noProduct, setNoProduct] = useState<boolean>(true); // State for error handling
+  // const [noProduct, setNoProduct] = useState<boolean>(true); // State for error handling
 
   const { data: session, status } = useSession(); // Fetch session data
   //   const router = useRouter();
@@ -90,7 +90,8 @@ const MainComponentAdmin = ({ logo }: { logo: string }) => {
 
         // if(data.groupedProducts.allProducts.length )
         if (data?.message === "No posts found") {
-          setNoProduct(false);
+          // setNoProduct(false);
+          setProducts(data?.message);
         } else {
           setProducts(data);
         }
@@ -163,13 +164,13 @@ const MainComponentAdmin = ({ logo }: { logo: string }) => {
             {/* {noProduct ? (
               <div>No Product</div>
             ) : ( */}
-              {(!loading ) && (
-                <Allproducts
-                  setDisplay={setDisplay}
-                  display={display}
-                  posts={products}
-                />
-              )}
+            {!loading && (
+              <Allproducts
+                setDisplay={setDisplay}
+                display={display}
+                posts={products}
+              />
+            )}
             {/* )} */}
           </>
         )}
