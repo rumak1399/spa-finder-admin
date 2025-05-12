@@ -131,27 +131,27 @@ export default function AddProduct({
     };
     console.log("product data", productData);
 
-    // try {
-    //   const res = await fetch(
-    //     `${process.env.NEXT_PUBLIC_BACKEND_HOST_URI}/post`,
-    //     {
-    //       method: "POST",
-    //       headers: { "Content-Type": "application/json" },
-    //       body: JSON.stringify(productData),
-    //     }
-    //   );
-    //   const data = await res.json();
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_HOST_URI}/post`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(productData),
+        }
+      );
+      const data = await res.json();
 
-    //   if (res.ok) {
-    //     alert(`Post added!`);
-    //     setDisplay("products");
-    //   } else {
-    //     alert(`Failed to add product: ${data.message}`);
-    //   }
-    // } catch (error) {
-    //   console.error("Error submitting product:", error);
-    //   alert("An error occurred. Please try again.");
-    // }
+      if (res.ok) {
+        alert(`Post added!`);
+        setDisplay("products");
+      } else {
+        alert(`Failed to add product: ${data.message}`);
+      }
+    } catch (error) {
+      console.error("Error submitting product:", error);
+      alert("An error occurred. Please try again.");
+    }
   };
 
   return (
