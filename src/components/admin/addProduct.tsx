@@ -125,8 +125,8 @@ export default function AddProduct({
       // featured: featured,
       popular: popular,
       email: email,
-      phone: phone, 
-      location: location
+      phone: phone,
+      location: location,
       // slug: slugPreview, // Include slug in the request
     };
     console.log("product data", productData);
@@ -240,10 +240,12 @@ export default function AddProduct({
                 required
               />
             </div>
-      <LocationPicker
-        onChange={(coords:LatLngLiteral ) => setLocation(coords)}
-        defaultValue={location}
-      />
+            <div className="w-md h-[300px]">
+              <LocationPicker
+                onChange={(coords: LatLngLiteral) => setLocation(coords)}
+                defaultValue={location}
+              />
+            </div>
 
             {/* Product Details */}
             <div className="mb-4">
