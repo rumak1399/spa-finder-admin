@@ -9,6 +9,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage, faVideo } from "@fortawesome/free-solid-svg-icons";
 // import { v4 as uuidv4 } from "uuid";
 import { VideoUploader } from "./videoUploader";
+import LocationPicker from "../LocationPicker";
+import { LatLngLiteral } from "leaflet";
 
 export default function AddProduct({
   setDisplay,
@@ -36,6 +38,10 @@ export default function AddProduct({
   //   const [pdfNmae, setPdfname] = useState<string | undefined>();
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [location, setLocation] = useState<LatLngLiteral>({
+    lat: 23.8103,
+    lng: 90.4125,
+  });
   // const [slugPreview, setSlugPreview] = useState<string>("");
   // const uid = uuidv4();
   // Fetch hierarchical categories
@@ -120,31 +126,32 @@ export default function AddProduct({
       popular: popular,
       email: email,
       phone: phone, 
+      location: location
       // slug: slugPreview, // Include slug in the request
     };
     console.log("product data", productData);
 
-    try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_HOST_URI}/post`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(productData),
-        }
-      );
-      const data = await res.json();
+    // try {
+    //   const res = await fetch(
+    //     `${process.env.NEXT_PUBLIC_BACKEND_HOST_URI}/post`,
+    //     {
+    //       method: "POST",
+    //       headers: { "Content-Type": "application/json" },
+    //       body: JSON.stringify(productData),
+    //     }
+    //   );
+    //   const data = await res.json();
 
-      if (res.ok) {
-        alert(`Post added!`);
-        setDisplay("products");
-      } else {
-        alert(`Failed to add product: ${data.message}`);
-      }
-    } catch (error) {
-      console.error("Error submitting product:", error);
-      alert("An error occurred. Please try again.");
-    }
+    //   if (res.ok) {
+    //     alert(`Post added!`);
+    //     setDisplay("products");
+    //   } else {
+    //     alert(`Failed to add product: ${data.message}`);
+    //   }
+    // } catch (error) {
+    //   console.error("Error submitting product:", error);
+    //   alert("An error occurred. Please try again.");
+    // }
   };
 
   return (
@@ -233,6 +240,10 @@ export default function AddProduct({
                 required
               />
             </div>
+      <LocationPicker
+        onChange={(coords:LatLngLiteral ) => setLocation(coords)}
+        defaultValue={location}
+      />
 
             {/* Product Details */}
             <div className="mb-4">
