@@ -5,6 +5,7 @@ import { IProduct } from "./main";
 import AddProduct from "./addProduct";
 import AddReview from "./addReview";
 import { useState } from "react";
+import AddTag from "./addTag";
 // import Image from "next/image";
 // import { useState } from "react";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -336,6 +337,7 @@ const AllProducts = ({
       {/* Add or Update Product Form */}
       {display === "addProduct" && <AddProduct setDisplay={setDisplay} />}
       {display === "addReview" && <AddReview  setDisplay={setDisplay} singlePost={singlePost} />}
+      {display === "addTag" && <AddTag  setDisplay={setDisplay} singlePost={singlePost} />}
       
 	  {/* {display === "updateProduct" && selectedproduct && (
         <UpdateProduct

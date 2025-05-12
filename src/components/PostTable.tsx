@@ -45,7 +45,7 @@ export default function PostTable({
               <td className="px-4 py-2 text-sm text-gray-800">
                 {item?.category?.name}
               </td>
-              <td className="px-4 py-2 space-x-2">
+              <td className="flex px-4 py-2 gap-2">
                 <button
                   className="px-3 py-1 text-sm text-primary bg-action rounded hover:bg-blue-700"
                   onClick={() => {
@@ -54,6 +54,15 @@ export default function PostTable({
                   }}
                 >
                   Add Review
+                </button>
+                <button
+                  className="px-3 py-1 text-sm text-primary bg-action rounded hover:bg-blue-700"
+                  onClick={() => {
+                    setDisplay("addTag");
+                    setSinglePost(item);
+                  }}
+                >
+                  Add Tag
                 </button>
                 {/* <button className="px-3 py-1 text-sm text-white bg-red-600 rounded hover:bg-red-700">
                   Delete
