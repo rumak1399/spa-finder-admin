@@ -16,6 +16,8 @@ export default function AddProduct({
   setDisplay: (prop: string) => void;
 }) {
   const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [phone, setPhone] = useState<string>("");
   const [price, setPrice] = useState<number | undefined>(0);
   const [discount, setDiscount] = useState<boolean>(false);
   const [discountAmount, setDiscountAmount] = useState<number | undefined>(0);
@@ -24,7 +26,7 @@ export default function AddProduct({
   const [popular, setPopular] = useState<boolean>(false);
   const [description, setDescription] = useState<string>("");
   const [specification, setSpecification] = useState<string>("");
-  const [category, setCategory] = useState<{ id: string}>({
+  const [category, setCategory] = useState<{ id: string }>({
     id: "",
   });
   const [categories, setCategories] = useState<ICategory[]>([]); // Hierarchical categories
@@ -80,7 +82,7 @@ export default function AddProduct({
 
       return (
         <React.Fragment key={idx}>
-          <option value={cat?._id} >
+          <option value={cat?._id}>
             {cat?.name}
             {/* {"—".repeat(currentPath.split("/").length - 1)} {cat.name} */}
           </option>
@@ -91,8 +93,7 @@ export default function AddProduct({
     });
   };
 
-// console.log('categories', categories, 'selected category', category);
-
+  // console.log('categories', categories, 'selected category', category);
 
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
@@ -117,9 +118,11 @@ export default function AddProduct({
       // status: status ? "published" : "draft",
       // featured: featured,
       popular: popular,
+      email: email,
+      phone: phone, 
       // slug: slugPreview, // Include slug in the request
     };
-console.log('product data', productData);
+    console.log("product data", productData);
 
     try {
       const res = await fetch(
@@ -205,6 +208,30 @@ console.log('product data', productData);
                 <VideoUploader onUploadSuccess={(link) => setVideo(link)} />{" "}
                 {/* Reusing ImageUploader */}
               </div>
+            </div>
+
+            <div className="mb-4">
+              <label htmlFor="email">Admin Email</label>
+              <input
+                className="w-full h-10 rounded-md border border-bcollor pl-3"
+                id="email"
+                type="text"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className="mb-4">
+              <label htmlFor="phone">Admin Phone</label>
+              <input
+                className="w-full h-10 rounded-md border border-bcollor pl-3"
+                id="phone"
+                type="text"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                required
+              />
             </div>
 
             {/* Product Details */}

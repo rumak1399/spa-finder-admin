@@ -16,54 +16,42 @@ export default function AddTag({
   // setSinglePost: (prop: IProduct) => void;
 }) {
   const { data: session, status } = useSession();
-  // const [rating, setRating] = useState("");
-  // const [comment, setComment] = useState("");
   const [tags, setTags] = useState<string[]>([""]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // const handleSubmit = (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   console.log("Submitting tags:", tags);
+  //   // Send to backend
+  // };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Submitting tags:", tags);
-    // Send to backend
+
+    // TODO: Submit to backend
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_HOST_URI}/tag`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            postId: singlePost?._id,
+            tags,
+          }),
+        }
+      );
+      const resData = await response.json();
+      console.log(resData);
+      if (response.ok) {
+        alert(`Review added to ${singlePost?.title}`);
+        setTags(['']);
+      }
+    } catch (error) {
+      console.log(error);
+      alert(error);
+    }
   };
 
-  // const handleSubmit = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-
-  //   const numericRating = parseFloat(rating);
-  //   if (isNaN(numericRating) || numericRating < 0 || numericRating > 5) {
-  //     alert("Rating must be a number between 0 and 5");
-  //     return;
-  //   }
-
-  //   console.log({ rating: numericRating, comment });
-  //   // TODO: Submit to backend
-  //   try {
-  //     const response = await fetch(
-  //       `${process.env.NEXT_PUBLIC_BACKEND_HOST_URI}/review`,
-  //       {
-  //         method: "POST",
-  //         headers: { "Content-Type": "application/json" },
-  //         body: JSON.stringify({
-  //           postId: singlePost?._id,
-  //           userEmail: session?.user?.email,
-  //           rating,
-  //           comment
-  //         }),
-  //       }
-  //     );
-  //    const resData =  await response.json();
-  //    console.log(resData);
-  //      if(response.ok){
-  //       alert(`Review added to ${singlePost?.title}`);
-  //       setRating("");
-  //       setComment("");
-  //      }
-  //   } catch (error) {
-  //     console.log(error);
-  //     alert(error)
-  //   }
-
-  // };
   console.log("single post LINE AT 30", singlePost, "session", session, status);
 
   return (
@@ -74,9 +62,7 @@ export default function AddTag({
       >
         &lt; Back To All Products
       </div>
-      <h1 className="text-2xl font-semibold mb-4 text-center">
-        Add Tags to
-      </h1>
+      <h1 className="text-2xl font-semibold mb-4 text-center">Add Tags to</h1>
       <div className="flex gap-10">
         <div className="flex flex-col gap-5">
           <p className="text-heading">
@@ -95,9 +81,7 @@ export default function AddTag({
           height={100}
         />
       </div>
-      <form
-       onSubmit={handleSubmit}
-      >
+      <form onSubmit={handleSubmit}>
         {/* other inputs */}
         <TagInput onTagsChange={setTags} />
         <button
