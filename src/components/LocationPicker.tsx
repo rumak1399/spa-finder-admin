@@ -59,7 +59,7 @@ const LocationPicker: React.FC<LocationPickerProps> = ({ onChange, defaultValue 
         zoom={13}
         scrollWheelZoom={true}
         style={{ height: "300px", width: "100%" }}
-      >
+            >
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

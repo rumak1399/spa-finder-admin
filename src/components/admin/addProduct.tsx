@@ -160,7 +160,7 @@ export default function AddProduct({
       {error && <p className="text-red-500">{error}</p>}
       {categories && (
         <form
-          className="w-full max-w-[84%] text-secondary text-lg flex justify-center"
+          className="w-full max-w-[84%]  text-secondary text-lg flex justify-center"
           onSubmit={handleSubmit}
         >
           <div className="w-full">
@@ -240,13 +240,10 @@ export default function AddProduct({
                 required
               />
             </div>
-            <div className="w-md h-[300px]">
-              <LocationPicker
+             <LocationPicker
                 onChange={(coords: LatLngLiteral) => setLocation(coords)}
                 defaultValue={location}
               />
-            </div>
-
             {/* Product Details */}
             <div className="mb-4">
               <label htmlFor="title">Post Name</label>
